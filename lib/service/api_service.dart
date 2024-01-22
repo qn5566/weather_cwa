@@ -18,7 +18,7 @@ class ApiService {
 
   ApiService(this._dio);
 
-  Future<Map<String, dynamic>> getWeatherForecast(String locationName) async {
+  Future<Map<String, dynamic>> getWeatherForecast({String locationName = "桃園市"}) async {
     try {
       Map<String, dynamic> newParams = {};
       newParams['Authorization'] = ApiConstants.apiKey;

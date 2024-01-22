@@ -27,11 +27,11 @@ class SearchBarCustom extends ConsumerWidget {
           ElevatedButton(
             onPressed: () {
               final locationName = locationController.text;
-              if (locationName.isNotEmpty) {
-                onSearch(locationName);
-              }
+              // if (locationName.isNotEmpty) {
+              onSearch(locationName);
+              // }
             },
-            child: const Text('Search'),
+            child: const Text('搜尋'),
           ),
         ],
       ),

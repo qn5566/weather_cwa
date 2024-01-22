@@ -41,13 +41,13 @@ class MyApp extends ConsumerWidget {
             SearchBarCustom(
               onSearch: (locationName) {
                 location = locationName;
-                ref.read(weatherProvider(location));
+                ref.read(queryProvider.notifier).state = locationName;
               },
             ),
             Expanded(
               child: Consumer(
                 builder: (context, ref, child) {
-                  final weatherFuture = ref.watch(weatherProvider(location));
+                  final weatherFuture = ref.watch(weatherProvider);
 
                   return weatherFuture.when(
                     loading: () => const Center(
