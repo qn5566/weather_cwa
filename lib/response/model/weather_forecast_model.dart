@@ -3,13 +3,15 @@ class WeatherForecast {
   final WeatherForecastResult result;
   final List<Location> locations;
 
-  WeatherForecast({required this.success, required this.result, required this.locations});
+  WeatherForecast(
+      {required this.success, required this.result, required this.locations});
 
   factory WeatherForecast.fromJson(Map<String, dynamic> json) {
     return WeatherForecast(
-      success: json['success'] as bool? ?? false,
+      success: json['success'] == 'true' ? true : false,
       result: WeatherForecastResult.fromJson(json['result'] ?? {}),
-      locations: (json['records']['location'] as List<dynamic>? ?? []).map((location) {
+      locations:
+          (json['records']['location'] as List<dynamic>? ?? []).map((location) {
         return Location.fromJson(location);
       }).toList(),
     );
@@ -31,7 +33,9 @@ class WeatherForecastResult {
   factory WeatherForecastResult.fromJson(Map<String, dynamic> json) {
     return WeatherForecastResult(
       resourceId: json['resource_id'] as String? ?? '',
-      fields: (json['fields'] as List<dynamic>? ?? []).map((field) => Field.fromJson(field)).toList(),
+      fields: (json['fields'] as List<dynamic>? ?? [])
+          .map((field) => Field.fromJson(field))
+          .toList(),
     );
   }
 }
@@ -87,7 +91,10 @@ class TimePeriod {
   final String endTime;
   final Parameter parameter;
 
-  TimePeriod({required this.startTime, required this.endTime, required this.parameter});
+  TimePeriod(
+      {required this.startTime,
+      required this.endTime,
+      required this.parameter});
 
   factory TimePeriod.fromJson(Map<String, dynamic> json) {
     return TimePeriod(
@@ -103,7 +110,10 @@ class Parameter {
   final String parameterValue;
   final String? parameterUnit;
 
-  Parameter({required this.parameterName, required this.parameterValue, this.parameterUnit});
+  Parameter(
+      {required this.parameterName,
+      required this.parameterValue,
+      this.parameterUnit});
 
   factory Parameter.fromJson(Map<String, dynamic> json) {
     return Parameter(
