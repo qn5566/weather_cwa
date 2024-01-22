@@ -6,8 +6,7 @@ final apiServiceProvider = Provider<ApiService>((ref) {
   final dio = Dio(BaseOptions(
       headers: {'device': 'mobile'},
       connectTimeout: const Duration(milliseconds: 1000000),
-      receiveTimeout: const Duration(milliseconds: 200000),
-      contentType: Headers.jsonContentType));
+      receiveTimeout: const Duration(milliseconds: 200000)));
 
   dio.interceptors.add(LogInterceptor(requestBody: true, responseBody: true));
 
@@ -22,6 +21,7 @@ class ApiService {
   Future<Map<String, dynamic>> getWeatherForecast(String locationName) async {
     try {
       Map<String, dynamic> newParams = {};
+      newParams['Authorization'] = ApiConstants.apiKey;
       newParams['locationName'] = locationName;
       final response = await _dio.get(ApiConstants.weatherForecastUrl,
           queryParameters: newParams);

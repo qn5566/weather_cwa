@@ -12,36 +12,50 @@ void main() {
   runApp(
     ProviderScope(
       observers: [Logger()],
-      child: MyApp(),
+      child: const MyApp(),
     ),
   );
 }
 
+// final weatherProvider = FutureProvider.autoDispose
+//     .family<WeatherForecast, String>((ref, locationName) async {
+//   final apiService = ref.read(apiServiceProvider);
+//   final response = await apiService.getWeatherForecast(locationName);
+//
+//   return WeatherForecast.fromJson(response);
+// });
+
 class MyApp extends ConsumerWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    String location = "";
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Weather Forecast App'),
+          title: const Text('天氣預報APP'),
         ),
         body: Column(
           children: [
             SearchBarCustom(
               onSearch: (locationName) {
-                // 在用户点击搜索按钮时更新 weatherProvider 数据
-                ref.read(weatherProvider);
+                location = locationName;
+                ref.read(weatherProvider(location));
               },
             ),
             Expanded(
               child: Consumer(
-                builder: (context, watch, child) {
-                  final weatherFuture = ref.watch(weatherProvider);
+                builder: (context, ref, child) {
+                  final weatherFuture = ref.watch(weatherProvider(location));
 
                   return weatherFuture.when(
-                    loading: () => const CircularProgressIndicator(),
+                    loading: () => const Center(
+                      child: CircularProgressIndicator(),
+                    ),
                     error: (error, stackTrace) => Text('Error: $error'),
-                    data: (weatherForecast) => WeatherWidget(weatherForecast: weatherForecast),
+                    data: (weatherForecast) => SingleChildScrollView(
+                        child: WeatherWidget(weatherForecast: weatherForecast)),
                   );
                 },
               ),

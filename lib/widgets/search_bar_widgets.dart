@@ -5,11 +5,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class SearchBarCustom extends ConsumerWidget {
   final void Function(String) onSearch;
 
-  SearchBarCustom({required this.onSearch});
+  const SearchBarCustom({super.key, required this.onSearch});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final TextEditingController _locationController = TextEditingController();
+    final TextEditingController locationController = TextEditingController();
 
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -17,18 +17,17 @@ class SearchBarCustom extends ConsumerWidget {
         children: [
           Expanded(
             child: TextField(
-              controller: _locationController,
+              controller: locationController,
               decoration: const InputDecoration(
-                hintText: 'Enter locationName',
+                hintText: '請輸入城市名稱',
               ),
             ),
           ),
           const SizedBox(width: 10),
           ElevatedButton(
             onPressed: () {
-              final locationName = _locationController.text;
+              final locationName = locationController.text;
               if (locationName.isNotEmpty) {
-                // 直接使用 ref.read(weatherProvider) 读取 provider 的值
                 onSearch(locationName);
               }
             },
